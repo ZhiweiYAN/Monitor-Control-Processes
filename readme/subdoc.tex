@@ -1,0 +1,69 @@
+% this file is called up by 2011.tex
+% content in this file will be fed into the main document
+
+%: ----------------------- name of chapter  -------------------------
+\chapter{Idle and Misbehavior Process Cleaner} % top level followed by section, subsection
+
+
+%: ----------------------- paths to graphics ------------------------
+
+% change according to folder and file names
+\ifpdf
+    \graphicspath{{process_cleaner_project/figures/PNG/}{process_cleaner_project/figures/PDF/}{process_cleaner_project/figures/}}
+\else
+    \graphicspath{{process_cleaner_project/figures/EPS/}{process_cleaner_project/figures/}}
+\fi
+
+%: ----------------------- contents from here ------------------------
+
+\section{Target}
+\begin{itemize}
+\item be convenient for the use of programmers
+\item keep simple;
+\item log files, using Google log files. It is an option.
+\end{itemize}
+
+\section{Basic usage:}
+I design it just for the Linux servers, shown in Fig. \ref{fig_p_c_s}. 
+
+\figuremacroW{process_cleaner_scheme}{Design Scheme}{Process Cleaner\label{fig_p_c_s}}{0.8}
+\begin{enumerate}
+\item Initialization or open
+\item register a process $X$ into the table of processes, which are monitored by a process, Killer.
+\item update heart-beat flag. It should be included in a loop.
+\item unregister the process $X$.
+\item close the functions of cleaner.
+\end{enumerate}
+
+\section{The Criteria Which Program is killed}
+\begin{enumerate}
+\item time out.
+\item heart\_beat\_flag
+\end{enumerate}
+
+\section{Process Table}
+\begin{enumerate}
+\item process id
+\item cup\_id, if run on a multi-core CPU.
+\item life\_time\_out\_limit
+\item life\_time, if life\_time\_out\_limit $<$ life\_time, kill
+\item heart\_beat\_flag, 0$->$live, 1$->$dead, 2$->$unknown, if 1$==$ heart\_beat\_flag, kill
+\item restart\_flag, if the flag is set, killer takes charge of restarting it.
+\item restart parameters, a local memory 
+\end{enumerate}
+
+$$
+\text{Table} 
+\begin{cases}
+\text{static memory}\\
+\text{dynamic memory, I prefer to it.}
+\end{cases}
+$$
+
+\section{Interface}
+pipe $-->$ outer program or TCP/IP \footnote{The speed of a program depends on its I/O performance. }
+
+% ---------------------------------------------------------------------------
+%: ----------------------- end of thesis sub-document ------------------------
+% ---------------------------------------------------------------------------
+
